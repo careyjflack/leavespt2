@@ -1,0 +1,329 @@
+<!--
+  Copyright (c) 2018 ml5
+
+  This software is released under the MIT License.
+  https://opensource.org/licenses/MIT
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pix2Pix web demo</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
+  <script src="https://unpkg.com/ml5@0.1.1/dist/ml5.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="dhmilate-font.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <main>
+    <header id="titleblock">
+      <h1 id="sitetitle">Sketches from the Field</h1>
+      <p id="invite">sketch an outline of a leaf (on the black), then click <b>generate</b> to grow your leaf &darr;</p>
+    </header>
+
+    <p id="status" role="status" aria-live="polite"></p>
+
+    <div id="app">
+      <div id="toolSidebar" role="group" aria-label="Drawing tools">
+        <button id="outlineBtn" class="tool-icon-btn is-active" aria-pressed="true" aria-label="Outline tool — draw the leaf's outline">
+          <span class="tool-icon" aria-hidden="true">⬭</span>
+          <span class="tool-label">outline</span>
+        </button>
+        <button id="veinBtn" class="tool-icon-btn" aria-pressed="false" aria-label="Vein tool — draw the leaf's veins">
+          <span class="tool-icon" aria-hidden="true">⑃</span>
+          <span class="tool-label">veins</span>
+          <span id="veinNudgeTooltip" class="nudge-tooltip" role="status" hidden>click this brush and start drawing the vein</span>
+        </button>
+      </div>
+      <div id="input"
+           role="img"
+           aria-label="Drawing canvas. Use a mouse or touch to draw a leaf using white lines on a black background, then click Transfer.">
+      </div>
+      <img id="output"
+           src="images/blank.png"
+           alt="The AI-generated output will appear here after clicking Transfer."
+           aria-live="polite">
+    </div>
+
+    <div id="buttons" role="group" aria-label="Canvas controls">
+      <button id="transferBtn" class="cta-primary" aria-label="Run the model and generate a leaf from your drawing" disabled>generate ˚꩜｡</button>
+      <button id="clearBtn" class="cta-secondary" aria-label="Clear the canvas and start over">clear sketch ༄</button>
+    </div>
+
+    <section id="process">
+      <div id="leaf-drift" aria-hidden="true"></div>
+
+      <p class="sect-label">field notes</p>
+      <h2>What it takes to teach a machine a leaf.</h2>
+
+      <div class="prose">
+        <p>
+          I'm a creative who loves emerging technology and trying things before
+          they're any good. Part of being experimental is knowing what each
+          project calls for: sometimes it's a nicely crafted output (I love good
+          craft!), other times it's a thoughtfully considered process. This
+          project is more of the latter. Consider this my personal note from the
+          field.
+        </p>
+        <p>
+          This project, an attempt to turn a leaf sketch into a generated leaf
+          vein network, is built using pix2pix — a cGAN (conditional generative
+          adversarial network). Here's what that means in practice: you feed it
+          matched pairs (a sketch and its corresponding photo), it trains on them,
+          and then it can take a new sketch and generate its best guess at the
+          real thing. Thousands of pairs later, it can turn a simple sketch into
+          a generated leaf.
+        </p>
+      </div>
+
+      <figure class="pair triple">
+        <span class="pair-item"><img src="train/t1_input.png" alt="A thin white leaf outline on black — the real thresholded input." loading="lazy"><em>A · input</em></span>
+        <span class="pair-arrow">&rarr;</span>
+        <span class="pair-item"><img src="train/t1_target.png" alt="The real scanned leaf — the target." loading="lazy"><em>B · target</em></span>
+        <span class="pair-arrow">&rarr;</span>
+        <a class="pair-item teaser" href="#results">
+          <img src="train/t1_output_blur.png" alt="A blurred green shape hinting at the generated leaf, revealed later." loading="lazy">
+          <span class="qmark">?</span>
+          <em>output (the guess) ↓</em>
+        </a>
+      </figure>
+
+      <div class="prose" style="margin-top: 48px;">
+        <p>
+          This experiment started as an assignment in my Handmade Datasets class
+          with <a href="https://handmadedatasets.com/" target="_blank" rel="noopener">SFPC</a>,
+          where the whole idea is to build your own data by hand instead of using
+          someone else's. It's true that when you can hold the data yourself, you
+          can better understand how it flows through a machine learning model.
+          Doing this was laborious, constrained, and fun.
+        </p>
+      </div>
+
+      <div class="prose">
+        <p class="questions">
+          Leaves in hand, I came into this project with a simple question:
+          <em>what does it take to teach a machine to see what we overlook? And
+          what can teaching a machine, in turn, teach me about life around us?</em>
+        </p>
+      </div>
+
+      <div class="notes">
+        <div class="note">
+          <p class="note-h">Gathering data by hand.</p>
+          <p>
+            Picking your dataset is the most important part of a project like
+            this — good data creates good results. It's also easy to pick
+            something with too many visual differences between examples, which
+            will quickly turn a small project like this into a
+            <em>certified dummy mission™</em>. I chose to keep it simple: 300
+            leaves from one shrub type, taught to a small pix2pix model.
+          </p>
+          <p>
+            I'm a hobby ecologist, so I'm naturally drawn to the small. For this
+            project, I chose to investigate the vein networks in a leaf — they're
+            vital to life on earth and almost entirely unseen, similar to an ML
+            model's own inputs. I chose the creeping fig (<em>Ficus pumila</em>)
+            as my subject; a little vine that eats fences. It's invasive here in
+            California, so harvesting hundreds of leaves to experiment and
+            troubleshoot felt less harmful to the ecosystem.
+          </p>
+          <p>
+            Even the same leaf can have so much variance: some are fat and
+            heart-shaped, some long and skinny, some red instead of dark green. I
+            flattened them, laid them on the scanner glass a handful at a time, and
+            scanned every single one before pressing them in a book. This took 10+
+            hours across many days. I came to appreciate what it takes to gather ML
+            data.
+          </p>
+          <figure class="photo-grid">
+            <img src="photos/fence.jpg" alt="A green vine of creeping fig growing across a weathered wooden fence." loading="lazy">
+            <img src="photos/scanner.jpg" alt="A hand holding a ziploc bag full of freshly gathered leaves in front of the vine." loading="lazy">
+            <img src="photos/laser.jpg" alt="Leaves laid out on an open flatbed scanner glass, a bag of gathered leaves beside it." loading="lazy">
+            <img src="photos/book_pressed.jpg" alt="Leaves pressed flat between the pages of a large book." loading="lazy">
+            <figcaption>the vine · a bag of it · leaves on the glass · pressed flat in whatever book was heavy</figcaption>
+          </figure>
+          <p style="margin-top: 40px;">
+            While working away, I reflected on the same lesson generative AI
+            keeps teaching me: we obsess over the outputs while forgetting the
+            inputs — the unglamorous structure it takes to make something
+            beautiful, whether it's a leaf's vein network or a generated image.
+            When we forget the inputs, we forget the intelligence we started with
+            in the first place. In this case, I was examining
+            <em>nature's intelligence</em> — its ability to keep generating
+            itself, over and over, in the perfect way, for a greater good.
+          </p>
+          <p>
+            I think there's something important to learn from the things we deem
+            small, uninteresting.
+          </p>
+        </div>
+
+        <div class="note">
+          <p class="note-h">Preparing the data, training the model.</p>
+          <p>
+            Gathering and scanning is only half of it — after that you still have
+            to clean, crop, and <em>grow</em> the data. I augmented my 300 leaves
+            into ~1,200 by flipping them horizontally and vertically, set up a
+            Google Drive to hold it all, and got the training pipeline running.
+          </p>
+          <figure class="photo-row">
+            <img src="images/contact_sheet.png" alt="A grid of sixteen scanned leaves on white, each slightly different in shape and shade of green." loading="lazy">
+            <img src="photos/preview_crop.jpg" alt="A laptop screen showing leaves being cropped one by one in the Preview app." loading="lazy">
+            <figcaption>a batch of the collection · cropping every single one, by hand</figcaption>
+          </figure>
+          <p style="margin-top: 40px;">
+            Then came the decisions that actually shape the model. <b>Epochs:</b>
+            one full pass over all the data is one epoch — I set a max of 200,
+            the established standard for pix2pix. <b>Learning rate:</b> how big a
+            step the model takes each time it corrects itself. Too high and it
+            overshoots and crashes; too low and it's making painfully slow
+            progress (akin to watching a plant sprout for hundreds of hours
+            straight). I used 0.0001 — cautious, maybe overcautious.
+            <b>Save frequency (100):</b> saves the model itself — checkpoints,
+            trained weights you can load and use later. <b>Display frequency
+            (500):</b> saves preview images every 500 steps — the input, the
+            guess, the target — so you can literally watch it learning (this was
+            my favorite part!). I did undertrain it a bit in the end. You live,
+            you learn, you train again.
+          </p>
+          <figure class="photo-single">
+            <img src="train/config.png" alt="A terminal showing the pix2pix training command with flags: mode train, which_direction AtoB, max_epochs 200, lr 0.0001, save_freq 100, display_freq 500." loading="lazy">
+            <figcaption>the training config — AtoB, 200 epochs, lr 0.0001</figcaption>
+          </figure>
+          <p>
+            And then you wait. The logs tick past — discriminator loss, generator
+            GAN loss, L1 loss — three numbers flashing across the screen for hours.
+            Checkpoint by checkpoint, a blurry leaf starts to appear and take form.
+          </p>
+          <figure class="photo-single">
+            <img src="train/loss_log.png" alt="Training log output showing epoch 82, discriminator loss around 0.8, generator GAN loss around 1.7, and L1 loss around 0.16, saving model at intervals." loading="lazy">
+            <figcaption>epoch 82, still going — the losses in their tug-of-war</figcaption>
+          </figure>
+
+          <figure class="triplet" style="margin-top:32px;">
+            <span class="pair-item">
+              <img src="train/cp1_outputs.png" alt="Model output at checkpoint 99 — blurry green shape." loading="lazy">
+              <em>checkpoint 99</em>
+            </span>
+            <span class="pair-item">
+              <img src="train/cp2_outputs.png" alt="Model output at checkpoint 1900 — shape and color emerging." loading="lazy" style="background:#fff;">
+              <em>checkpoint 1,900</em>
+            </span>
+            <span class="pair-item">
+              <img src="train/cp3_outputs.png" alt="Model output at checkpoint 43200 — veins beginning to show." loading="lazy" style="background:#fff;">
+              <em>checkpoint 43,200</em>
+            </span>
+          </figure>
+        </div>
+
+        <div class="note" id="results">
+          <p class="note-h">It kind of looks like shit. Here's what I see anyway.</p>
+          <p>
+            Ok, let's look at this thing. Smeary, dithered, a little haunted
+            looking (why is AI so uncanny?!) — but look closer: it learned green
+            in the middle, pale at the vein, darker at the edge. It started
+            trying to figure out veins, chaotically. A blank network now has
+            opinions.
+          </p>
+          <p>
+            And I came away understanding what it actually takes to build one —
+            the cost of a dataset, the demands of a model, and the complexity of
+            even the smallest things. I'm excited to keep iterating.
+          </p>
+          <figure class="triplet">
+            <span class="pair-item"><img src="train/cp3_inputs.png" alt="Input outline." loading="lazy"><em>input</em></span>
+            <span class="pair-item"><img src="train/cp3_targets.png" alt="The real target leaf." loading="lazy" style="background:#f3f0e6;"><em>real leaf</em></span>
+            <span class="pair-item"><img src="train/cp3_outputs.png" alt="What the model generated." loading="lazy" style="background:#fff;"><em>it guessed</em></span>
+          </figure>
+        </div>
+
+        <div class="note">
+          <p class="note-h">Can a machine learn a vein, then dream a new one?</p>
+          <p>
+            That was the real question. Veins are unseen, we don't think about
+            them, but they hold up the whole leaf, and the leaf holds up the
+            ecosystem, and the air we breathe. It felt like a fitting thing to ask
+            a model to learn: the intimate, structural, easy-to-overlook parts. It
+            reminds me of the overlooked dataset driving the models we love to use.
+          </p>
+          <p>
+            Watching it train, checkpoint by checkpoint, a hundred images at a
+            time, I understood ML differently. The output isn't the point. The
+            inputs are — the data, the pipeline, the thousands of small decisions.
+            The labor is the real star here; whether you're building these
+            datasets, the models that use them, or maintaining them, they're made
+            by many, many hands.
+          </p>
+          <p>
+            What artists have been saying for so long is true: <em>the purpose is
+            the process, and the labor is the art.</em>
+          </p>
+          <p>
+            So maybe it hasn't quite imagined new veins yet — or answered the
+            biggest questions of the plant universe — but I do have ideas for the
+            next pass. What's another epoch anyway?
+          </p>
+        </div>
+
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <p class="sect-label">open questions</p>
+          <ul class="qlist">
+            <li>What does it actually take to watch a model learn over time?</li>
+            <li>How do machines struggle with the intimate parts of experience — the branch of a vein, a thing that <em>feels</em> rather than resolves?</li>
+            <li>Can ML be a tool for <em>thinking</em> about how we create with it, not just a tool for making?</li>
+          </ul>
+        </div>
+        <div class="col">
+          <p class="sect-label">next pass</p>
+          <ul class="qlist">
+            <li>Put the veins into dataset A, not just the outline.</li>
+            <li>Train it longer — it's probably a little undertrained.</li>
+            <li>Try flowers next. Something with more color.</li>
+            <li>Make a film or animation of the model learning.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <p id="credit">This html demo of pix2pix is slightly modified from Dongphil Yoo's <a href="https://github.com/dongphilyoo/pix2pix-ml5-demo">pix2pix-ml5-demo</a></p>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    (function () {
+      var layer = document.getElementById('leaf-drift');
+      if (!layer) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var count = 60;
+      for (var i = 1; i <= count; i++) {
+        var img = document.createElement('img');
+        var n = String(((i - 1) % 27) + 1).padStart(2, '0');
+        img.src = 'leaves/sm_leaf' + n + '.png';
+        img.alt = '';
+        img.className = 'drift-leaf';
+        img.style.top = ((i / (count + 1)) * 100 + (Math.random() * 5 - 2.5)) + '%';
+        img.style.left = (Math.random() * 86) + '%';
+        img.style.width = (90 + Math.random() * 130) + 'px';
+        img.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        img.style.opacity = (0.40 + Math.random() * 0.20).toFixed(3);
+        if (!reduce) {
+          img.style.animationDelay = (-Math.random() * 26) + 's';
+          img.style.animationDuration = (26 + Math.random() * 20) + 's';
+        }
+        layer.appendChild(img);
+      }
+    })();
+  </script>
+</body>
+
+</html>
