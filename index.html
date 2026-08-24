@@ -137,13 +137,15 @@
           <em>what does it take to teach a machine to see what we
           overlook? And what can teaching a machine, in turn, teach me
           about life around us?</em> I scanned 300 leaves from an
-          invasive shrub, taught a small pix2pix model how to turn a
-          simple sketched outline into a generated leaf, and as the
-          epochs turned a blurry leaf shape and green color appeared
-          &mdash; but still, no actual veins. No hallucinated life. I notably described it as looking
-          like sh*t (or better yet, a green smear), but as a creative
-          technologist, I found meaning and wonder in my first brave
-          attempt at training a tiny ml model.
+          invasive shrub, then taught a small pix2pix model how to turn
+          a simple sketched outline into a generated leaf. I then watched
+          the epochs turn for hours as a blurry leaf shape and green
+          color appeared. That was pretty cool, but still, no actual
+          veins were generated &mdash; which was exactly what I wanted.
+          I notably described it as looking like sh*t (or better yet, a
+          green smear), but as a creative technologist, I found meaning
+          and wonder in my first brave attempt at training a tiny ml
+          model.
         </p>
 
         <figure class="triplet">
@@ -194,8 +196,7 @@
         <div class="note">
           <p class="note-h">What's different this time.</p>
           <p>
-            A few things changed in this second training attempt where
-            I started completely fresh:
+            A few things changed in this second training attempt:
           </p>
           <ul class="qlist">
             <li>
@@ -206,7 +207,7 @@
               &mdash; the midrib and a few side veins. The goal: give the
               model enough of a vein structure to learn from, so that when
               it generates a leaf from a new sketch, it hallucinates the
-              vein network its own. This meant every one of my 300+ leaves
+              vein network on its own. This meant that all 300+ leaves
               needed a matching vein sketch, not just a silhouette.
               Pulling this off was <em>very</em> high drama, but fun.
               I'll talk about that in the next section or two.
@@ -216,11 +217,12 @@
               &mdash; where you draw and hit generate &mdash; got a sweet
               little upgrade. Instead of using the thin-lined single brush
               the template came with, I built an entirely new set of
-              brushes. One brush for the outline, another for veins, each
-              with its own weight, its own softness, its own organic
-              movement &mdash; meaning your lines may not look completely
-              straight, and that's on purpose. The training data has a bit
-              of an organic feel, so the brushes are mimicking that.
+              brushes specific to my dataset. One brush for the leaf
+              outline, another for veins, each with its own weight,
+              softness, and organic movement &mdash; meaning your lines
+              may not look completely straight, and that's on purpose.
+              The training data has a bit of an organic feel, so the
+              brushes are mimicking that.
             </li>
             <li>
               <b>The model trained longer.</b> More epochs means more
@@ -361,8 +363,9 @@
           <p style="margin-top: 40px;">
             Sure, it's different, but not uncomplicated. As a hobby
             ecologist, the questions I face in my own everyday harvesting
-            practice were bubbling up on this day too &mdash; even though
-            I wasn't foraging fruit at all. I was <em>data foraging</em>.
+            practice were bubbling up during my data collection process
+            too &mdash; even though I wasn't foraging fruit at all. I was
+            <em>data foraging</em>.
           </p>
           <ul class="qlist">
             <li>What data do we ignore in our everyday lives?</li>
@@ -376,22 +379,20 @@
             to scrape the web for models. People say, &ldquo;well it's
             there, it's available in the public sphere &mdash; why can't
             I use it?&rdquo; But abundance isn't the same thing as
-            permission. A plant doesn't stop being a living thing that
-            we're responsible to because it's unwanted, unpolished, or
-            complicated. This taught me that how I forage plants can also
-            inform how I forage data.
+            permission.
           </p>
           <p>
-            Robin Wall Kimmerer's writing on the Honorable Harvest
-            immediately came to mind &mdash; the idea that taking from a
-            living thing comes with obligations: ask first, take only
-            what you need, use everything you take, give something back.
-            My own family has fished, farmed, and foraged for
-            generations, and there's a specific kind of obligation that
-            suddenly appears when you gather something yourself, by hand,
-            rather than having it arrive already gathered and packaged
-            for you. You can't help but notice what you're taking. Which
-            means you can't help but ask what you owe it.
+            Robin Wall Kimmerer's writing on the Honorable Harvest came
+            up during the share-out of blog one (a book very dear to my
+            practice). It's the idea that taking from a living thing
+            comes with obligations: ask first, take only what you need,
+            use everything you take, give something back. My own family
+            has fished, farmed, and foraged for generations, and there's
+            a specific kind of obligation that suddenly appears when you
+            gather something yourself, by hand, rather than having it
+            arrive already gathered and packaged for you. You can't help
+            but notice what you're taking. Which means you can't help but
+            ask what you owe it.
           </p>
 
           <div class="harvest-cards">
@@ -430,11 +431,17 @@
           </p>
           <p>
             So on my quest of harvesting this invasive plant, I decided
-            I wasn't only there to scrape or take data, but to be in
-            relationship with it &mdash; to properly learn from it. By
-            doing this, I was able to really grasp my hands around my
-            own data, understand it closely, and understand how ML models
-            are built from the ground up.
+            that I wasn't only there to scrape or take data, but to be
+            in relationship with it &mdash; to properly learn from it.
+            By doing this, I was able to really grasp my hands around
+            my own data, understand it closely, and understand how ML
+            models are built from the ground up.
+          </p>
+          <p>
+            In this case, I realized the environment would lose a little
+            ecological data and hopefully, from me, gain another kind.
+            Maybe a kind of knowledge. I wondered if I could bring that
+            knowledge with me, make with it, make it useful.
           </p>
 
           <p style="margin-top: 40px;">
@@ -451,23 +458,16 @@
           <p class="note-h">Can a machine learn a vein, then dream a new one?</p>
           <p>
             Well yeah, it can, and my first thought when I saw a
-            real-looking, generated leaf was &ldquo;wow, that's
+            real-looking, generated leaf was &ldquo;wow, that's kind of
             f*cked up.&rdquo; Because it <em>actually</em> did learn
             something about vein networks, and it actually kind of looks
             like a leaf. I find this so interesting, and maybe a little
             weird and uncanny. But what once felt like a pipe dream in
-            phase one of my project, actually happened this time.
-          </p>
-          <p>
-            It learned enough of what a vein <em>is</em> &mdash; where it
+            phase one of my project, actually happened this time. It
+            learned enough of what a vein <em>is</em> &mdash; where it
             sits, how it branches, what texture surrounds it &mdash; to
-            generate ones it had never seen, following a hand-drawn
-            suggestion rather than copying a memorized leaf. That's real.
-            It also has a clear blind spot, one I can now name precisely
-            instead of just shrugging at: it doesn't yet trust itself to
-            improvise leaf tissue far from any vein ink. It leans on the
-            veins as scaffolding instead of holding the whole leaf as a
-            concept.
+            generate ones it has never seen, following a hand-drawn
+            suggestion that anyone, even a non-artist, can create.
           </p>
           <figure class="output-pairs">
             <img src="images/pair1-sketch.png" alt="Leaf outline sketched on black canvas — tall and narrow with branching veins." loading="lazy">
@@ -486,113 +486,44 @@
           </figure>
           <p>
             Where it falls short, I can't point to just one cause. Some
-            of it is the technology itself. Some of it is a dataset
-            that's still too small for certain leaf shapes. There may be
-            some overfitting.
+            of it is the limitation of the Pix2Pix technology itself.
+            Some of it is a dataset that's still too small for certain
+            leaf shapes. There may be some overfitting.
           </p>
           <p>
-            More interesting: once, a whole region of a generated leaf
-            dissolved into noisy static &mdash; right where my sketch's
-            veins didn't reach. My first theory was that the model wanted
-            a specific number of veins &mdash; three to five, it seemed
-            like, depending on size. Testing it closer, the real story
-            was sharper: it was underfitted for that specific leaf shape
-            (fat round ones). I confirmed it the cheap way: added one
-            more vein branch reaching into the empty region, changed
-            nothing else, and the noise vanished.
+            It also has a clear blind spot: in some edge-cases, the whole
+            region of a generated leaf may dissolve into noisy static. My
+            first theory was that the model wanted a specific number of
+            veins &mdash; three to five, it seemed like. Testing it
+            closer, I realized it was underfitted for a specific leaf
+            shape (wider shaped leaves with fewer veins). When I add
+            enough veins to the empty region, the ghastly-looking noise
+            vanishes like a ghost.
           </p>
           <p>
-            Which makes me wonder if the attempt itself was ever fully
-            possible. Maybe there's something specific to being human, or
-            being a plant, or being any living thing, that a generated
-            image can gesture at but never actually hold. What comes out
-            the other end of this model is only a visual representation
-            of something far more complex than what you can see. A vein
-            network isn't just lines on a leaf. In the last version of
-            this project I wrote that the leaf's veins hold up the leaf,
-            the leaf holds up the ecosystem, the ecosystem holds up the
-            air we breathe. All this generation can do is represent a
-            sliver of that &mdash; it can't actually hold any of it up.
+            All in all, I knew there would be limitations, and I'm happy
+            with what I learned. You can see the progress yourself by
+            comparing it to <a href="https://careyjflack.github.io/leavespt2/" target="_blank" rel="noopener">blog one</a>.
           </p>
+
+          <p class="note-h" style="margin-top: 48px;">Sketches of Life</p>
           <p>
-            Here's the part I keep sitting with, though. &ldquo;Hallucination&rdquo;
-            is usually the word we reach for when a model gets something
-            wrong &mdash; when it invents a fact, a citation, a face that
-            isn't there. It's treated as a bug, a thing to be corrected
-            out of the system before anyone trusts it again. I went into
-            this wanting the opposite: for the hallucinating to be the
-            point. Legacy Russell's <em>Glitch Feminism</em> argues
-            something close to this about failure in general &mdash;
-            that a glitch isn't just an error, it's a crack where the
-            system's assumptions show, and where something other than
-            what was expected gets a chance to exist. Russell is writing
-            about bodies, gender, and the internet &mdash; a different
-            context than a shrub eating a fence, and I don't want to
-            flatten that difference by borrowing her frame too casually.
-            But the core move still travels: what if the places this
-            model breaks down aren't just bugs to patch, but the places
-            worth actually looking?
-          </p>
-          <p>
-            If a hallucinated vein is a kind of glitch, then the
-            interesting question isn't <em>how do I make it stop doing
-            that</em> &mdash; it's <em>what does it mean for this leaf to
-            replicate life?</em> Not copy a photograph of a leaf.
-            Replicate the thing underneath the photograph: the reaching,
-            the branching, the decision (if you can call it that) to grow
-            toward light instead of away from it. A perfect copy wouldn't
-            need to replicate anything &mdash; it would just repeat
-            what's already there. The failure is where the attempt at
-            life actually shows up.
-          </p>
-          <p>
-            Maybe that's the real shape of the metaphor, actually &mdash;
-            not just for this model, but for AI more broadly. It succeeds
-            and it fails at the same time, and I think both halves matter.
-            It can't replace the thing that makes a leaf, or a person,
-            fundamentally itself. There's an intelligence embedded in
-            us, and in the vine on that fence, that a machine like this
-            is only ever attempting to replicate from the outside. I
-            think we've underestimated that intelligence for a long time
-            &mdash; in ourselves as much as in what grows around us. A
-            model like this one is really just a culmination of a lot of
-            human thought, gathered across space and time and hundreds
-            of hands that trained things before I ever did. That
-            accumulation is a real advantage &mdash; it's part of why it
-            can guess at a vein network faster than I ever could by
-            hand. But accumulation isn't the same thing as the
-            intelligence it's drawing from. It's downstream of it, not a
-            replacement for it.
-          </p>
-          <p>
-            Which brings me to the provocation I don't have an answer
-            for, and don't think I'm supposed to. We talk about machine
-            learning as mimicry all the time &mdash; digital twins,
-            models &ldquo;trained on&rdquo; us, always implying a slightly
-            better, smarter, faster version of the original. I'm not sure
-            that's the right frame for what happened here. This model
-            isn't exactly mimicking a vein network &mdash; it's mimicking
-            what I can see of one, from my own human vantage point. In a
-            sense, it's limited by my own limitations as a human being.
-            It's replicating the aesthetics of a kind of physical,
-            ecological intelligence, a few hundred times, badly,
-            hopefully generatively, in the direction of something alive.
-            Whether that's closer to seeing, or closer to dreaming, or
-            whether those turn out to be the same act from two different
-            angles &mdash; I'd rather leave open than resolve.
-          </p>
-          <p>
-            There's a real complexity to being a living being, and a real
-            mystery to it too. I think machine learning, at its most
-            honest, brings us back to that mystery rather than resolving
-            it. Maybe the useful move isn't ranking intelligences &mdash;
-            human above machine, or machine catching up to human &mdash;
-            but accepting that there are simply different kinds of
-            intelligence to learn from, without ever forgetting our own.
-            Whatever this model is doing, I don't think it should be
-            measured only by how close it gets to replicating life.
-            Maybe it's more honest, and more useful, as a reflection tool
-            than as a perfect replication.
+            I came into this project attempting to replicate something as
+            squishy and hard-to-pin as &ldquo;life&rdquo;, and I'm now
+            realizing how many more questions than answers a project like
+            this brings up. We talk about machine learning as mimicry all
+            the time &mdash; digital twins, models &ldquo;trained on&rdquo;
+            us, always implying a slightly better, smarter, faster, or
+            more efficient version of the original. But I'm not sure
+            that's the right frame for what happened here. This model is,
+            at best, mimicking <em>what I can see</em> of a vein network
+            from my own human vantage point. It's replicating the part
+            of a leaf's vein network that we can see, which represents
+            its deeper ecological intelligence, a few hundred times,
+            badly, hopefully generatively, in the direction of something
+            alive. All this generation can do is represent a sliver of
+            that real-life process, and it's still so interesting to look
+            at.
           </p>
           <figure class="photo-row" style="margin-top: 32px;">
             <img src="photos/garden-1.jpg" alt="A cucumber vine wrapping its tendril around a black metal trellis, yellow flowers visible below." loading="lazy" style="height: 260px; object-fit: cover; border-radius: 12px;">
@@ -601,16 +532,36 @@
           </figure>
           <p style="margin-top: 40px;">
             My mom, whose garden I've been spending a lot of time in
-            lately, told me once to just watch what a plant does &mdash;
-            how it responds when it's watered, how a vine's tendrils go
-            looking for a fence or a pole to wrap around. That's how you
-            know something is alive, she said: not that it sits there,
-            but that it reaches. I think that's most of what I wanted
-            this model to do. Not render a leaf. Reach toward one &mdash;
-            badly, sometimes, unevenly, in a way that shows exactly where
-            it's still guessing. That unevenness isn't the failure mode.
-            It might be the only honest way something without a body
-            could gesture at being alive at all.
+            lately, told me to watch what a plant does &mdash; how it
+            responds when it's watered, how a vine's tendrils go looking
+            for a fence or a pole to wrap around. That's how you know
+            it's alive, she told me, by the way it reaches. I think
+            that's most of what I wanted this model to do. Not replicate
+            the life that a leaf is fully capable of upholding &mdash;
+            that's too difficult for a computer to do anyway. But to
+            reach toward it &mdash; sometimes, badly, in a way that shows
+            exactly how imperfect its own intelligence might be.
+            <em>See</em>, computers are like humans too! <em>wink</em>.
+          </p>
+          <p>
+            But no really &mdash; there's a real complexity and mystery
+            to being alive that's sometimes understated. This earth's
+            existence is just as random, but also awe-inspiring, as the
+            vein network this model has figured out how to create. I
+            think machine learning, at its most honest, brings us back to
+            that mystery rather than trying to resolve it. Maybe the
+            useful move isn't ranking intelligences &mdash; human above
+            machine, machine over human, or human over nature &mdash; but
+            accepting that there are simply different kinds of
+            intelligences to learn from. They can give us perspective.
+          </p>
+          <p>
+            The best this model (which doesn't have a living vein
+            structure or a body) can do right now is gesture at the idea
+            of being alive, and its small failures are a reminder. Maybe
+            it gives us the contrast to appreciate the natural
+            intelligences that have allowed us to get this far &mdash; to
+            create and embody new kinds of intelligence.
           </p>
         </div>
       </div>
